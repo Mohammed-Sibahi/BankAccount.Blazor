@@ -1,17 +1,94 @@
 ﻿@page "/"
+@using BankAccount.Blazor.Models
 
 <PageTitle>Bank Account Blazor App</PageTitle>
 <h1>Personal Bank Account</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <input type="text" placeholder="Enter your name."  />
-        <button class="btn-success" style="margin:3px;">Submit</button>
+        <h4 style="margin: 7px;">Enter Your Name:</h4>
+        <input type="text" @bind-value="_customerName" placeholder="Enter your name."  />
+
+        <h4 style="margin: 7px;">Enter Your occupation:</h4>
+        <input type="text" @bind-value="_occupation" placeholder="Enter your occupation." />
+
+        <h4 style="margin: 7px;">Enter Your Company Name:</h4>
+        <input type="text" @bind-value="_companyName" placeholder="Enter your company name." />
+
+        <h4 style="margin: 7px;">Enter Your monthly salary:</h4>
+        <input type="number" @bind-value="_monthlySalary" placeholder="Enter your monthly salary." />
+        
+        <h4 style="margin: 7px;">Enter Your age:</h4>
+        <input type="number" @bind-value="_age" placeholder="Enter your age." />
+
+        <h4 style="margin: 7px;">Enter Your email address:</h4>
+        <input type="email" @bind-value="_emailAddress" placeholder="Enter your email." />
+
+        <h4 style="margin: 7px;">Enter Your address:</h4>
+        <input type="text" @bind-value="_address" placeholder="Enter your address." />
+
+        <h4 style="margin: 7px;">Enter Your mobile number:</h4>
+        <input type="tel" @bind-value="_mobileNumber" placeholder="00971" />
+
+        
+
+        <button class="btn-success" style="margin:3px;" @onclick="CreateAccount" >Submit</button>
     </div>
+    
+    <div class="col-md-4 card" >
+        
+        @foreach( Customer item in _customers)
+        {
+            <div class="card-header">
+            Account created successfully!
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@item.Name</li>
+                <li class="list-group-item">@item.CompanyName</li>
+                <li class="list-group-item">@item.MonthlySalary</li>
+                <li class="list-group-item">@item.EmailAddress</li>
+                <li class="list-group-item">@item.Address</li>
+            </ul>
+        }
+    </div>
+    
 </div>
 
 
 
+
+
 @code{
+    private string _customerName;
+    private string _occupation;
+    private string _companyName;
+    private decimal _monthlySalary;
+    private int _age;
+    private string _emailAddress;
+    private string _address;
+    private string _mobileNumber;
+
+    private List<Account> _accounts = new List<Account>();
+    private List<Customer> _customers = new List<Customer>();
+
+
+    public void CreateAccount()
+    {
+        // create an object of customer to bind the UI object with that in the models folder
+        Customer customer = new Customer(_customerName, _occupation, _companyName, _monthlySalary, _age, _emailAddress, _address, _mobileNumber);
+        _customers.Add(customer);
+        Account account = new Account(customer);
+        _accounts.Add(account);
+
+        _customerName = "";
+        _occupation = "";
+        _companyName = "";
+        _monthlySalary = 0;
+        _age = 0;
+        _emailAddress = "";
+        _address = "";
+        _mobileNumber = "";
+    }
     
+
 }
